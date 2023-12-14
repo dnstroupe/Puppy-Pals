@@ -1,10 +1,14 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { puppyList } from "./data"; // Make sure to add your data.js file
+import "./App.css";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [featuredPupId, setFeaturedPupId] = useState(null);
+
+  const featuredPuppy = puppyList.find((puppy) => puppy.id === featuredPupId);
 
   return (
     <>
@@ -22,14 +26,33 @@ function App() {
           count is {count}
         </button>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          Edit <code>src/App.jsx</code> and save to test HMR updates.
         </p>
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <div className="puppy-list">
+        {puppyList.map((puppy) => (
+          <p key={puppy.id} onClick={() => setFeaturedPupId(puppy.id)}>
+            {puppy.name}
+          </p>
+        ))}
+      </div>
+      {featuredPupId && featuredPuppy && (
+        <div className="featured-puppy">
+          <h2>{featuredPuppy.name}</h2>
+          <p>Age: {featuredPuppy.age}</p>
+          <p>Email: {featuredPuppy.email}</p>
+          <ul>
+            {featuredPuppy.tricks.map((trick) => (
+              <li key={trick.id}>{trick.title}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
